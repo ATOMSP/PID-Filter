@@ -49,7 +49,7 @@ float PidRunInc(PID_Typedef *hpid,float actual,float target)
 {
   volatile static float out = 0.0f;
   /* ÔİÍ£PID */
-  if(hpid->IS_STOP) return;
+  if(hpid->IS_STOP) return 0.0f;
   hpid->I_error = target - actual;
   out += (hpid->kp * (hpid->I_error - hpid->I_last_error)
         + hpid->ki * hpid->I_error
@@ -221,9 +221,9 @@ float Filter_Mean(void(*CallBack)(float*),int n)
     ret += temp[i];
   }
 #ifdef ARM_MATH_CM4
-  ret = 0.0f;
-  arm_mean_f32(temp,n,&ret);
-  return ret;
+  // ret = 0.0f;
+  // arm_mean_f32(temp,n,&ret);
+   return ret;
 #else
   return (float)ret / n;
 #endif
